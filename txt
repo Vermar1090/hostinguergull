@@ -1,0 +1,17 @@
+gulla-api/
+├── src/
+│   ├── config/
+│   │   └── database.js
+│   ├── models/
+│   │   └── User.js
+│   ├── controllers/
+│   │   └── authController.js
+│   ├── routes/
+│   │   └── authRoutes.js
+│   ├── middleware/
+│   │   └── auth.js
+│   └── utils/
+│       └── helpers.js
+├── .env
+├── package.json
+└── server.js
