@@ -2,10 +2,16 @@ const { Server } = require('socket.io');
 
 let io;
 
+const allowedOrigins = [
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'https://magenta-rat-781378.hostingersite.com'
+];
+
 const initializeSocket = (server) => {
     io = new Server(server, {
         cors: {
-            origin: ['http://localhost:5173', 'http://localhost:3000'],
+            origin: allowedOrigins,
             credentials: true
         }
     });
@@ -13,7 +19,7 @@ const initializeSocket = (server) => {
     io.on('connection', (socket) => {
         console.log('✅ Cliente conectado:', socket.id);
 
-        socket.on('join_admin_room', (data) => {
+        socket.on('join_admin_room', () => {
             socket.join('admin_room');
             console.log('👤 Admin se unió a la sala admin');
         });
@@ -39,18 +45,15 @@ const getIO = () => {
 };
 
 const emitToAdmins = (event, data) => {
-    const io = getIO();
-    io.to('admin_room').emit(event, data);
+    getIO().to('admin_room').emit(event, data);
 };
 
 const emitToUser = (userId, event, data) => {
-    const io = getIO();
-    io.to(`user_${userId}`).emit(event, data);
+    getIO().to(`user_${userId}`).emit(event, data);
 };
 
 const emitToAll = (event, data) => {
-    const io = getIO();
-    io.emit(event, data);
+    getIO().emit(event, data);
 };
 
 module.exports = {
